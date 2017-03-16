@@ -1,8 +1,6 @@
 #import "ToolTipMenu.h"
-
-#import "RCTBridge.h"
 #import "RCTToolTipText.h"
-#import "RCTUIManager.h"
+#import <React/RCTUIManager.h>
 
 @implementation ToolTipMenu
 
@@ -43,6 +41,11 @@ RCT_EXPORT_METHOD(show:(nonnull NSNumber *)reactTag
     }
     menuCont.menuItems = menuItems;
     [menuCont setMenuVisible:YES animated:YES];
+}
+
+RCT_EXPORT_METHOD(hide){   
+    UIMenuController *menuCont = [UIMenuController sharedMenuController];
+    [menuCont setMenuVisible:NO animated:NO];
 }
 
 @end
