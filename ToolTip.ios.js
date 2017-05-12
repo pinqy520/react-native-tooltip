@@ -21,26 +21,26 @@ var propTypes = {
   ...TouchableHighlight.propTypes,
 };
 
-export default const ViewClass = React.createClass({
-  getDefaultProps: function() {
+const ViewClass = React.createClass({
+  getDefaultProps: function () {
     return {
       arrowDirection: 'down'
     };
   },
 
-  showMenu: function() {
+  showMenu: function () {
     ToolTipMenu.show(findNodeHandle(this.refs.toolTipText), this.getOptionTexts(), this.props.arrowDirection);
   },
-  hideMenu: function() {
+  hideMenu: function () {
     ToolTipMenu.hide();
   },
-  
-  getOptionTexts: function() {
+
+  getOptionTexts: function () {
     return this.props.actions.map((option) => option.text);
   },
 
   // Assuming there is no actions with the same text
-  getCallback: function(optionText) {
+  getCallback: function (optionText) {
     var selectedOption = this.props.actions.find((option) => option.text === optionText);
 
     if (selectedOption) {
@@ -50,7 +50,7 @@ export default const ViewClass = React.createClass({
     return null;
   },
 
-  getTouchableHighlightProps: function() {
+  getTouchableHighlightProps: function () {
     var props = {};
 
     Object.keys(TouchableHighlight.propTypes).forEach((key) => props[key] = this.props[key]);
@@ -64,7 +64,7 @@ export default const ViewClass = React.createClass({
     return props;
   },
 
-  handleToolTipTextChange: function(event) {
+  handleToolTipTextChange: function (event) {
     var callback = this.getCallback(event.nativeEvent.text);
 
     if (callback) {
@@ -72,11 +72,11 @@ export default const ViewClass = React.createClass({
     }
   },
 
-  render: function() {
+  render: function () {
     return (
       <RCTToolTipText ref='toolTipText' onChange={this.handleToolTipTextChange}>
         <TouchableHighlight
-          {...this.getTouchableHighlightProps()}
+          {...this.getTouchableHighlightProps() }
         >
           <View>
             {this.props.children}
@@ -88,3 +88,5 @@ export default const ViewClass = React.createClass({
 });
 
 ViewClass.propTypes = propTypes;
+
+export default ViewClass
