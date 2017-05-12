@@ -12,11 +12,11 @@ var RCTToolTipView = requireNativeComponent('RCTToolTipView', ToolTip);
 
 export default class ToolTip extends React.Component {
 
- tooltipView
+  tooltipView
 
-constructor(props){
-  super(props)
-}
+  constructor(props) {
+    super(props)
+  }
 
   getOptionTexts() {
     return this.props.actions.map((option) => option.text);
@@ -45,31 +45,31 @@ constructor(props){
   }
 
   showMenu(event) {
-      UIManager.dispatchViewManagerCommand(
-                 findNodeHandle(this.toolTipText),
-                 UIManager.RCTToolTipView.Commands.show,
-                 this.getOptionTexts());
+    UIManager.dispatchViewManagerCommand(
+      findNodeHandle(this.toolTipText),
+      UIManager.RCTToolTipView.Commands.show,
+      this.getOptionTexts());
   }
 
   handleToolTipTextChange(event) {
-        var callback = this.getCallback(event.nativeEvent.text);
+    var callback = this.getCallback(event.nativeEvent.text);
 
-        if (callback) {
-          callback(event);
-        }
+    if (callback) {
+      callback(event);
+    }
   }
 
-  render(){
+  render() {
     return (
-          <RCTToolTipView ref={(view)=>{
-            this.toolTipText = view
-          }} onChange={this.handleToolTipTextChange.bind(this)}>
-                    <TouchableHighlight {...this.getTouchableHighlightProps()} >
-                                    <View>
-                                    {this.props.children}
-                                  </View>
-                     </TouchableHighlight>
-          </RCTToolTipView>
-          )
+      <RCTToolTipView ref={(view) => {
+        this.toolTipText = view
+      }} onChange={this.handleToolTipTextChange.bind(this)}>
+        <TouchableHighlight {...this.getTouchableHighlightProps() } >
+          <View>
+            {this.props.children}
+          </View>
+        </TouchableHighlight>
+      </RCTToolTipView>
+    )
   }
 }

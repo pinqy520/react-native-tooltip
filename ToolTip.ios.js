@@ -21,7 +21,7 @@ var propTypes = {
   ...TouchableHighlight.propTypes,
 };
 
-var ViewClass = React.createClass({
+export default const ViewClass = React.createClass({
   getDefaultProps: function() {
     return {
       arrowDirection: 'down'
@@ -88,5 +88,3 @@ var ViewClass = React.createClass({
 });
 
 ViewClass.propTypes = propTypes;
-
-module.exports = ViewClass;
