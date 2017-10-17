@@ -1,46 +1,30 @@
-'use strict';
-
-var {
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
+import {
   requireNativeComponent,
   TouchableHighlight,
   View,
   NativeModules,
-  findNodeHandle,
-} = require('react-native');
-var React = require('react');
-var ToolTipMenu = NativeModules.ToolTipMenu;
-var RCTToolTipText = requireNativeComponent('RCTToolTipText', null);
+  findNodeHandle
+} from 'react-native'
 
-var propTypes = {
-  actions: React.PropTypes.arrayOf(React.PropTypes.shape({
-    text: React.PropTypes.string.isRequired,
-    onPress: React.PropTypes.func,
-  })),
-  arrowDirection: React.PropTypes.oneOf(['up', 'down', 'left', 'right']),
-  longPress: React.PropTypes.bool,
-  ...TouchableHighlight.propTypes,
-};
+const ToolTipMenu = NativeModules.ToolTipMenu
+const RCTToolTipText = requireNativeComponent('RCTToolTipText', null)
 
-const ViewClass = React.createClass({
-  getDefaultProps: function () {
-    return {
-      arrowDirection: 'down'
-    };
-  },
-
-  showMenu: function () {
+export default class ToolTip extends React.Component {
+  showMenu = () => {
     ToolTipMenu.show(findNodeHandle(this.refs.toolTipText), this.getOptionTexts(), this.props.arrowDirection);
-  },
-  hideMenu: function () {
+  }
+  hideMenu = () => {
     ToolTipMenu.hide();
-  },
+  }
 
-  getOptionTexts: function () {
+  getOptionTexts = () => {
     return this.props.actions.map((option) => option.text);
-  },
+  }
 
   // Assuming there is no actions with the same text
-  getCallback: function (optionText) {
+  getCallback = (optionText) => {
     var selectedOption = this.props.actions.find((option) => option.text === optionText);
 
     if (selectedOption) {
@@ -48,9 +32,9 @@ const ViewClass = React.createClass({
     }
 
     return null;
-  },
+  }
 
-  getTouchableHighlightProps: function () {
+  getTouchableHighlightProps = () => {
     var props = {};
 
     Object.keys(TouchableHighlight.propTypes).forEach((key) => props[key] = this.props[key]);
@@ -62,17 +46,17 @@ const ViewClass = React.createClass({
     }
 
     return props;
-  },
+  }
 
-  handleToolTipTextChange: function (event) {
+  handleToolTipTextChange = (event) => {
     var callback = this.getCallback(event.nativeEvent.text);
 
     if (callback) {
-      callback(event);
+      callback(event)
     }
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <RCTToolTipText ref='toolTipText' onChange={this.handleToolTipTextChange}>
         <TouchableHighlight
@@ -83,10 +67,20 @@ const ViewClass = React.createClass({
           </View>
         </TouchableHighlight>
       </RCTToolTipText>
-    );
+    )
   }
-});
+}
 
-ViewClass.propTypes = propTypes;
+ToolTip.defaultProps = {
+  arrowDirection: 'down'
+}
+ToolTip.propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    onPress: PropTypes.func,
+  })),
+  arrowDirection: PropTypes.oneOf(['up', 'down', 'left', 'right']),
+  longPress: PropTypes.bool,
+  ...TouchableHighlight.propTypes,
+}
 
-export default ViewClass
